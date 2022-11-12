@@ -11,7 +11,6 @@ export async function get_messages (ctx: Context): Promise<void> {
 
 export async function post_message (ctx: Context): Promise<void> {
     const message: NewMessageRequest = await ctx.request.body().value;
-
     await create_message(message);
 
     ctx.response.status = 200;
