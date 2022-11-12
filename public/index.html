@@ -5,7 +5,55 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 	</head>
+	
 	<body>
-	    <h1>Hello world</h1>
+		<input type="text" id="input-text-field">
+		<button id="input-submit-button" onclick="create_message()">odeslat</button>
+		<div id="messages-container"></div>
 	</body>
+
+	<script>
+		const input_text_field = document.getElementById("input-text-field");
+		const input_submit_button = document.getElementById("input-submit-button");
+		const messages_container = document.getElementById("messages-container");
+
+		function create_message() {
+			const body = {
+				message: input_text_field.value
+			};
+			const body_json = JSON.stringify(body);
+
+			const options = {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json"
+				},
+				body: body_json
+			};
+
+			fetch("/message", options).then(function(res) {
+				fetch_messages()
+			});
+		}
+
+		async function fetch_messages() {
+			const options = {
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json"
+				}
+			}
+			return fetch("/message", options)
+				.then(function(res) {return res.json()})
+				.then(function(data) {
+					messages_container.innerHTML = null;
+					data.forEach(message_obj => {
+						messages_container.innerHTML += message_obj.message;
+						messages_container.innerHTML += "<br>";
+					});
+				})
+		}
+
+		window.onload = fetch_messages;
+	</script>
 </html>

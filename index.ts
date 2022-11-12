@@ -1,14 +1,18 @@
-import { Application } from "https://deno.land/x/oak/mod.ts";
+import { Application, Router } from "https://deno.land/x/oak/mod.ts";
 import "https://deno.land/x/dotenv/load.ts";
 
-import { root_handler } from "./src/mod.ts";
+import { root_handler, get_messages, post_message } from "./src/mod.ts";
 
-//const port: number = Deno.env.get("port");
 const port = 8000;
 
 const app: Application = new Application();
+const router: Router = new Router();
 
-app.use(root_handler);
+router.get("/", root_handler);
+router.get("/message", get_messages);
+router.post("/message", post_message)
+
+app.use(router.routes());
+app.use(router.allowedMethods());
 
 await app.listen({ port: port });
-console.log(`up on port: ${port}`);
