@@ -18,8 +18,8 @@ app.use(router.routes());
 app.use(router.allowedMethods());
 
 app.addEventListener(
-  "listen",
-  (e) => console.log("Listening on http://localhost:8080"),
+	"listen",
+	(e) => console.log("Listening on http://localhost:8080"),
 );
 
-await app.listen({ port: PORT});
+await app.listen(`localhost:${PORT}`);
