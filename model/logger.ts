@@ -17,6 +17,5 @@ export async function log_request (ctx: Context, next: any): Promise<void> {
         path: ctx.request.url,
         ipAddr: ctx.request.ip,
     };
-    console.log(log_message);
     store_log(log_message);
 }

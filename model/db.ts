@@ -1,7 +1,13 @@
-import { config } from "https://deno.land/x/dotenv@v3.2.0/mod.ts";
 import { LogMessage } from "./logger.ts";
 
-const { MONGO_API_ENDPOINT, MONGO_API_KEY } = config();
+const env1 = Deno.env.get("MONGO_API_ENDPOINT");
+const env2 = Deno.env.get("MONGO_API_KEY");
+
+if (env1 === undefined || env2 === undefined) {
+	throw "environment variables are not set properly"
+} 
+const MONGO_API_ENDPOINT: string = env1
+const MONGO_API_KEY: string = env2
 
 const CLUSTER = "WaChatDb";
 
