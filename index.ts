@@ -18,5 +18,3 @@ app.use(log_request);
 app.use(router.routes());
 app.use(router.allowedMethods());
 
-await app.listen(`localhost:${PORT}`);
-
