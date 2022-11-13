@@ -3,9 +3,7 @@ import { LogMessage } from "./logger.ts";
 
 const { MONGO_API_ENDPOINT, MONGO_API_KEY } = config();
 
-const DATA_FILE_PATH = "./data/data.json";
-
-const CLUSTER = "wa-chat";
+const CLUSTER = "WaChatDb";
 
 const LOG_DATABASE = "logs";
 const LOG_COLLECTION = "connections";
@@ -14,16 +12,19 @@ const DATA_DATABASE = "data";
 const DATA_COLLECTION = "messages";
 
 
-
 export interface Message {
     message: string
+}
+
+interface MongoMessage {
+	_id: string,
+	message: string
 }
 
 
 
 export async function fetch_messages (): Promise<Array<Message>> {
-	console.log(1);
-	const URI = `${MONGO_API_ENDPOINT}/find`;
+	const URI = `${MONGO_API_ENDPOINT}/action/find`;
 
 	const options = {
 		method: "POST",
@@ -40,16 +41,16 @@ export async function fetch_messages (): Promise<Array<Message>> {
 	};
 	options.body = JSON.stringify(query);
 
-	const messages_json = await fetch(URI, options);
-	console.log(1, messages_json)
-	const messages = await messages_json.json(); 
-	console.log(2, messages)
+	const data_json: Response = await fetch(URI, options);
+	const data_mongo = await data_json.json(); 
+	const messages_mongo: Array<MongoMessage> = data_mongo.documents;
+	const messages: Array<Message> = messages_mongo.map(mongo_message => {return {message: mongo_message.message}});
 
 	return messages
 }
 
 export async function store_message (message: Message): Promise<void> {
-	const URI = `${MONGO_API_ENDPOINT}/insertOne`;
+	const URI = `${MONGO_API_ENDPOINT}/action/insertOne`;
 
 	const options = {
 		method: "POST",
@@ -72,7 +73,7 @@ export async function store_message (message: Message): Promise<void> {
 
 
 export async function store_log (log: LogMessage): Promise<void> {
-	const URI = `${MONGO_API_ENDPOINT}/insertOne`;
+	const URI = `${MONGO_API_ENDPOINT}/action/insertOne`;
 
 	const options = {
 		method: "POST",

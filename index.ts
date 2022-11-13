@@ -14,9 +14,9 @@ router.get("/", root_handler);
 router.get("/message", get_messages);
 router.post("/message", post_message);
 
+app.use(log_request);
 app.use(router.routes());
 app.use(router.allowedMethods());
-app.use(log_request);
 
 await app.listen(`localhost:${PORT}`);
 

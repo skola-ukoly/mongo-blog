@@ -3,7 +3,6 @@ import { fetch_messages, store_message, Message } from "./../model/mod.ts";
 
 export async function get_messages (ctx: Context): Promise<void> {
     const messages = await fetch_messages();
-	console.log(messages);
 
     ctx.response.status = 200;
     ctx.response.headers.append("Content-Type", "application/json");
