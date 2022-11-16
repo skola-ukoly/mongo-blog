@@ -1,11 +1,12 @@
 import { LogMessage } from "./logger.ts";
 
-const env1 = Deno.env.get("MONGO_API_ENDPOINT");
-const env2 = Deno.env.get("MONGO_API_KEY");
+const env1 = Deno.env.get("MONGO_API_ENDPOINT") 
+const env2 = Deno.env.get("MONGO_API_KEY")
 
 if (env1 === undefined || env2 === undefined) {
 	throw "environment variables are not set properly"
 } 
+
 const MONGO_API_ENDPOINT: string = env1
 const MONGO_API_KEY: string = env2
 
@@ -16,6 +17,7 @@ const LOG_COLLECTION = "connections";
 
 const DATA_DATABASE = "data";
 const DATA_COLLECTION = "messages";
+
 
 
 export interface Message {
