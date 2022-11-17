@@ -1,7 +1,7 @@
 import { LogMessage } from "./logger.ts";
 
-const env1 = Deno.env.get("MONGO_API_ENDPOINT") 
-const env2 = Deno.env.get("MONGO_API_KEY")
+const env1 = Deno.env.get("MONGO_API_ENDPOINT");
+const env2 = Deno.env.get("MONGO_API_KEY"); 
 
 if (env1 === undefined || env2 === undefined) {
 	throw "environment variables are not set properly"
@@ -101,3 +101,4 @@ export async function store_log (log: LogMessage): Promise<void> {
 
 	await fetch(URI, options);
 } 
+

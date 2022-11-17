@@ -7,14 +7,15 @@
 	</head>
 	
 	<body>
-		<input type="text" id="input-text-field">
-		<button id="input-submit-button" onclick="create_message()">odeslat</button>
-		<div id="messages-container"></div>
+		<main>
+			<input type="text" id="input-text-field">
+			<button id="input-submit-button" onclick="create_message()">odeslat</button>
+			<div id="messages-container"></div>
+		</main>
+		<footer>
+			<a href="https://github.com/skola-ukoly/wa_chat/issues" id="issueText">Pro nahlaseni chyby prosim vytvorte Github Issue</a>
+		</footer>
 	</body>
-	<footer>
-		<a href="/issue">Nahlaste problem</a>
-	</footer>
-
 	<script>
 		const input_text_field = document.getElementById("input-text-field");
 		const input_submit_button = document.getElementById("input-submit-button");
@@ -59,4 +60,22 @@
 
 		window.onload = fetch_messages;
 	</script>
+	<style>
+		main {
+			position: relative;
+			width: 100%;
+			height: auto;
+		}
+		footer {
+			position: absolute;
+			padding: 5px;
+			border-radius: 5px;
+			bottom: 10px;
+			background-color: #4a96e8;
+		}
+		#issueText {
+			color: black;
+		}
+	</style>
 </html>
+
