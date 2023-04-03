@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Mongo blog</title>
+    </head>
+    <body>
+        <h1>Blog</h1>
+        <div class="new-button-container">
+            <a href="/article" id="new-button">New</a>
+        </div>
+        <div class="articles-container"></div>
+    </body>
+    <script>
+        const articlesContainer = document.querySelector(".articles-container");
+
+        function fetchArticles() {
+            fetch("/article/all")
+                .then((res) => res.json())
+                .then((articles) => {
+                    articles.forEach((article) => {
+                        const articleHTML = document.createElement("div");
+                        articleHTML.innerHTML = `
+                        	<h2 id='title-${article._id}'>${article.title}</h2>
+                          	<p id='content-${article._id}'>${article.content}</p>
+                            <button onclick="editArticle('${article._id}')">Edit</button>
+                            <button onclick="deleteArticle('${article._id}')">Delete</button>
+                        `;
+                        articleHTML.id = article._id;
+                        articleHTML.className = "article";
+                        articlesContainer.appendChild(articleHTML);
+                    });
+                });
+        }
+
+        function deleteArticle(id) {
+            fetch(`/article/${id}`, {
+                method: "DELETE",
+            }).then(() => {
+                articlesContainer.innerHTML = "";
+                fetchArticles();
+            });
+        }
+
+        function editArticle(id) {
+            const article = document.getElementById(id);
+            const title = document.getElementById(`title-${id}`);
+            const content = document.getElementById(`content-${id}`);
+
+            title.focus();
+            title.contentEditable = true;
+            content.contentEditable = true;
+            article.classList.add("editing");
+
+            const saveButton = document.createElement("button");
+            saveButton.innerText = "Save";
+            article.appendChild(saveButton);
+            saveButton.onclick = () => {
+                title.contentEditable = false;
+                content.contentEditable = false;
+                article.classList.remove("editing");
+                saveButton.remove();
+                
+                const newArticle = {
+                    _id: id,
+                    title: title.innerText,
+                    content: content.innerText,
+                };
+                
+                const opts = {
+                    method: "PUT",
+                    headers: {
+                        "Content-type": "application/json; charset=UTF-8",
+                    },
+                    body: JSON.stringify(newArticle),
+                };
+                
+                fetch(`/article/${id}`, opts).then(() => {
+                    window.alert("Article updated");
+                })
+            };
+        }
+
+        fetchArticles();
+        </script>
+</html>
+
+<style>
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+            Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+        font-size: 16px;
+        line-height: 1.5;
+        background-color: #f7f7f7;
+        color: #333;
+        margin: 0;
+    }
+
+    h1 {
+        font-size: 2rem;
+        text-align: center;
+        padding: 1rem;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+        padding: 0 1rem;
+    }
+
+    p {
+        padding: 0 1rem;
+    }
+
+    .article {
+        margin: 1rem;
+        padding: 1rem;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    #new-button {
+        display: inline-block;
+        text-decoration: none;
+        background-color: #0070f3;
+        color: #fff;
+        border-radius: 5px;
+        padding: 0.5rem 1rem;
+        margin: 1rem;
+    }
+
+    #new-button:hover {
+        background-color: #0366d6;
+    }
+
+    .new-button-container {
+        text-align: center;
+    }
+
+    .editing {
+        background-color: #dfdfdf;
+        border-width: 3px;
+        border-color: #0070f3;
+    }
+</style>

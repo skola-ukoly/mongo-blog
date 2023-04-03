@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create new article</title>
+</head>
+<body>
+    <h1>Create new article</h1>
+     <form action="/article" method="POST" >
+        <label for="title">Title</label>
+        <input type="text" name="title" id="title">
+        <label for="content">Content</label>
+        <textarea name="content" id="content" cols="30" rows="10"></textarea>
+        <button type="submit">Create</button>
+    </form>
+</body>
+</html> 
+
+<style>
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+    }
+    h1 {
+        text-align: center;
+    }
+    form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    label {
+        margin-top: 10px;
+    }
+    input {
+        width: 300px;
+        height: 30px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        padding: 0 10px;
+    }
+    textarea {
+        width: 300px;
+        height: 100px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        padding: 10px;
+    }
+    button {
+        width: 100px;
+        height: 30px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        background-color: #ccc;
+        cursor: pointer;
+    }
+
+
+
+</style>
